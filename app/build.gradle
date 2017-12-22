@@ -1,0 +1,77 @@
+apply plugin: 'com.android.application'
+
+apply plugin: 'kotlin-android'
+
+apply plugin: 'kotlin-android-extensions'
+
+android {
+    compileSdkVersion 26
+    defaultConfig {
+        applicationId "shido.com.swordmaster"
+        minSdkVersion 21
+        targetSdkVersion 26
+        versionCode 1
+        versionName "1.0"
+        testInstrumentationRunner "android.support.test.runner.AndroidJUnitRunner"
+    }
+    buildTypes {
+        release {
+            minifyEnabled false
+            proguardFiles getDefaultProguardFile('proguard-android.txt'), 'proguard-rules.pro'
+        }
+    }
+}
+
+dependencies {
+    implementation fileTree(dir: 'libs', include: ['*.jar'])
+    implementation "org.jetbrains.kotlin:kotlin-stdlib-jre7:$kotlin_version"
+    implementation "com.android.support:appcompat-v7:$supportLibVersion"
+    implementation 'com.android.support.constraint:constraint-layout:1.0.2'
+    testImplementation 'junit:junit:4.12'
+    androidTestImplementation 'com.android.support.test:runner:1.0.1'
+    androidTestImplementation 'com.android.support.test.espresso:espresso-core:3.0.1'
+
+    implementation 'com.airbnb.android:lottie:2.2.0'
+
+    //Support Lib
+    implementation "com.android.support:appcompat-v7:${supportLibVersion}"
+    implementation "com.android.support:design:${supportLibVersion}"
+    implementation "com.android.support:recyclerview-v7:${supportLibVersion}"
+    implementation "com.android.support:cardview-v7:${supportLibVersion}"
+    implementation "com.android.support:animated-vector-drawable:${supportLibVersion}"
+
+    //Architecture Components
+    implementation "android.arch.lifecycle:extensions:$lifecycle_extension_version"
+    kapt "android.arch.lifecycle:compiler:$lifecycle_core_version"
+    testImplementation "android.arch.core:core-testing:$livedata_core_testing_version"
+    implementation "android.arch.paging:runtime:$paging_version"
+
+    //Network
+    implementation "com.squareup.retrofit2:retrofit:${retrofitLibVersion}"
+    implementation "com.squareup.retrofit2:converter-gson:${retrofitLibVersion}"
+    implementation "com.squareup.okhttp3:logging-interceptor:${okhttpLogginLibVersion}"
+    implementation 'com.github.kittinunf.fuel:fuel:1.12.0'
+
+    //Kotlin
+    implementation "org.jetbrains.kotlinx:kotlinx-coroutines-android:$kotlin_coroutines"
+    compile "org.jetbrains.kotlin:kotlin-stdlib-jre8:$kotlin_version"
+    testCompile "org.jetbrains.kotlin:kotlin-test-junit:$kotlin_version"
+
+    //Tests
+    testCompile 'junit:junit:4.12'
+    testCompile 'org.mockito:mockito-core:2.7.22'
+    androidTestCompile 'org.mockito:mockito-android:2.7.22'
+    androidTestCompile 'com.squareup.spoon:spoon-client:1.6.4'
+    testCompile 'com.nhaarman:mockito-kotlin-kt1.1:1.5.0'
+    testImplementation 'org.hamcrest:hamcrest-library:1.3'
+    testImplementation "com.squareup.retrofit2:retrofit-mock:${retrofitLibVersion}"
+
+    //Dagger 2
+    implementation "com.google.dagger:dagger:$daggerLibVersion"
+    kapt "com.google.dagger:dagger-compiler:$daggerLibVersion"
+    implementation "com.google.dagger:dagger-android:$daggerLibVersion"
+    implementation "com.google.dagger:dagger-android-support:$daggerLibVersion"
+    // if you use the support libraries
+    kapt "com.google.dagger:dagger-android-processor:$daggerLibVersion"
+
+}
