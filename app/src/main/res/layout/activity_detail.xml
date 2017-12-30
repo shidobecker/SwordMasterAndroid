@@ -1,38 +1,38 @@
 <?xml version="1.0" encoding="utf-8"?>
-<RelativeLayout
-  xmlns:android="http://schemas.android.com/apk/res/android"
-  xmlns:app="http://schemas.android.com/apk/res-auto"
-  xmlns:tools="http://schemas.android.com/tools"
-  android:layout_width="match_parent"
-  android:layout_height="match_parent"
-  tools:context="shido.com.swordmaster.DetailActivity">
-
-  <View
-    android:id="@+id/container_colored_background"
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:layout_above="@+id/div_center"/>
+    tools:context="shido.com.swordmaster.view.DetailActivity">
 
-  <TextView
-    android:id="@+id/lbl_date_and_time_header"
-    android:layout_width="match_parent"
-    android:layout_height="wrap_content"
-    android:layout_above="@+id/div_center"
-    android:padding="16dp"
-    tools:text="2:43AM 09/07/2019"/>
+    <View
+        android:id="@+id/container_colored_background"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:layout_above="@+id/div_center" />
 
-  <View
-    android:id="@+id/div_center"
-    android:layout_width="match_parent"
-    android:layout_height="1dp"
-    android:layout_centerVertical="true"/>
+    <TextView
+        android:id="@+id/lbl_date_and_time_header"
+        style="@style/TextPrimary"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_above="@+id/div_center"
+        android:padding="16dp"
+        tools:text="2:43AM 09/07/2019" />
 
-  <TextView
-    android:id="@+id/lbl_message_body"
-    android:layout_width="match_parent"
-    android:layout_height="wrap_content"
-    android:padding="16dp"
-    tools:text="Check out content like fragmented podcast to expose yourself to the knowledge"
-    android:layout_below="@+id/div_center"/>
+    <View
+        android:id="@+id/div_center"
+        android:layout_width="match_parent"
+        android:layout_height="1dp"
+        android:layout_centerVertical="true" />
+
+    <TextView
+        android:id="@+id/lbl_message_body"
+        style="@style/TextSecondary"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_below="@+id/div_center"
+        android:padding="16dp"
+        tools:text="Check out content like fragmented podcast to expose yourself to the knowledge" />
 
 </RelativeLayout>

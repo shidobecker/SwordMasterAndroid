@@ -9,4 +9,18 @@
     <item name="android:windowBackground">@color/colorWindowsBackground</item>
   </style>
 
+  <style name="Text">
+    <item name="android:gravity">center_vertical</item>
+    <item name="android:textSize">16sp</item>
+  </style>
+
+ <style name="TextPrimary">
+    <item name="android:fontFamily">sans-serif-medium</item>
+    <item name="android:textSize">16sp</item>
+  </style>
+
+  <style name="TextSecondary">
+    <item name="android:fontFamily">sans-serif</item>
+    <item name="android:textSize">14sp</item>
+  </style>
 </resources>
