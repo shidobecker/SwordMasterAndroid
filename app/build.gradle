@@ -45,6 +45,8 @@ dependencies {
     kapt "android.arch.lifecycle:compiler:$lifecycle_core_version"
     testImplementation "android.arch.core:core-testing:$livedata_core_testing_version"
     implementation "android.arch.paging:runtime:$paging_version"
+    compile "android.arch.persistence.room:runtime:$roomVersion"
+    kapt "android.arch.persistence.room:compiler:$roomVersion"
 
     //Network
     implementation "com.squareup.retrofit2:retrofit:${retrofitLibVersion}"
@@ -76,6 +78,8 @@ dependencies {
 
     //UI
     implementation 'de.hdodenhof:circleimageview:2.2.0'
+    compile "com.github.JakeWharton:ViewPagerIndicator:2.4.1"
+
 
 
 }

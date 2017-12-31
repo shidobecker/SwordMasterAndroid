@@ -35,7 +35,7 @@ ext {
     lifecycle_extension_version = '1.0.0'
     livedata_core_testing_version = '1.0.0'
     paging_version = '1.0.0-alpha4-1'
-
+    roomVersion = '1.0.0'
 }
 
 
