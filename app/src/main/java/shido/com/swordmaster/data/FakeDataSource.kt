@@ -10,6 +10,7 @@ import java.util.*
  */
 class FakeDataSource : DataSourceInterface {
 
+
     private val sizeOfCollection = 12
     private val random: Random = Random()
 
@@ -51,5 +52,15 @@ class FakeDataSource : DataSourceInterface {
         return listOfData
     }
 
+    override fun createNewItem(): ListItem {
+        val randomOne = random.nextInt(4)
+        val randomTwo = random.nextInt(4)
+        val randomThree = random.nextInt(4)
 
+        return ListItem(dateAndTime = datesAndTimes[randomOne],
+                message = messages[randomTwo], colorResource = colours[randomThree])
+    }
+
+    override fun deleteListItem(listItem: ListItem) {
+    }
 }

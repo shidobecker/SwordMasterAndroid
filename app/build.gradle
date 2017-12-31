@@ -74,4 +74,8 @@ dependencies {
     // if you use the support libraries
     kapt "com.google.dagger:dagger-android-processor:$daggerLibVersion"
 
+    //UI
+    implementation 'de.hdodenhof:circleimageview:2.2.0'
+
+
 }

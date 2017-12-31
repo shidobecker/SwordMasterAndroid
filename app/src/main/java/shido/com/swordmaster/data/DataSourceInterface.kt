@@ -8,4 +8,7 @@ interface DataSourceInterface {
 
     fun getListOfData(): List<ListItem>
 
+    fun createNewItem(): ListItem
+    fun deleteListItem(listItem: ListItem)
+
 }
