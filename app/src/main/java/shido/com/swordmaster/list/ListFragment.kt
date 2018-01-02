@@ -1,121 +1,153 @@
-package shido.com.swordmaster.view
+package shido.com.swordmaster.list
 
-import android.app.ActivityOptions
+
+import android.arch.lifecycle.Observer
+import android.arch.lifecycle.ViewModelProvider
+import android.arch.lifecycle.ViewModelProviders
 import android.content.Context
 import android.content.Intent
 import android.os.Build
 import android.os.Bundle
 import android.support.design.widget.BaseTransientBottomBar
 import android.support.design.widget.Snackbar
+import android.support.transition.Fade
+import android.support.v4.app.Fragment
 import android.support.v4.content.ContextCompat
-import android.support.v7.app.AppCompatActivity
 import android.support.v7.widget.DividerItemDecoration
 import android.support.v7.widget.LinearLayoutManager
 import android.support.v7.widget.RecyclerView
 import android.support.v7.widget.helper.ItemTouchHelper
-import android.transition.Fade
-import android.util.Pair
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
-import kotlinx.android.synthetic.main.activity_list.*
+import android.widget.TextView
+import kotlinx.android.synthetic.main.fragment_list.*
 import kotlinx.android.synthetic.main.item_data.view.*
+
 import shido.com.swordmaster.R
-import shido.com.swordmaster.data.FakeDataSource
+import shido.com.swordmaster.SwordMasterApplication
 import shido.com.swordmaster.data.ListItem
-import shido.com.swordmaster.logic.Controller
+import shido.com.swordmaster.viewmodel.ListItemCollectionViewModel
+import javax.inject.Inject
 
-class ListActivity : AppCompatActivity(), ViewInterface {
 
+/**
+ * A simple [Fragment] subclass.
+ * Use the [ListFragment.newInstance] factory method to
+ * create an instance of this fragment.
+ */
+class ListFragment : Fragment() {
+
+    @Inject
+    lateinit var viewModelFactory: ViewModelProvider.Factory
+
+    lateinit var adapter: CustomAdapter
+
+    val viewModel: ListItemCollectionViewModel by lazy {
+        ViewModelProviders.of(this, viewModelFactory)
+                .get(ListItemCollectionViewModel::class.java)
+    }
+
+    override fun onCreate(savedInstanceState: Bundle?) {
+        super.onCreate(savedInstanceState)
+
+        (activity.application as SwordMasterApplication)
+                .applicationComponent.inject(this)
+
+    }
+
+    override fun onActivityCreated(savedInstanceState: Bundle?) {
+        super.onActivityCreated(savedInstanceState)
+
+        viewModel.getListItems().observe(this, Observer {
+            adapter.listOfItems = checkNotNull(it?.toMutableList())
+            adapter.notifyDataSetChanged()
+        })
+
+    }
+
+    override fun onCreateView(inflater: LayoutInflater?, container: ViewGroup?,
+                              savedInstanceState: Bundle?): View? {
+        val textView = TextView(activity)
+        textView.setText(R.string.hello_blank_fragment)
+        return textView
+    }
 
     companion object {
         val EXTRA_DATE_AND_TIME = "EXTRA_DATE_AND_TIME"
         val EXTRA_MESSAGE = "EXTRA_MESSAGE"
         val EXTRA_COLOR = "EXTRA_COLOR"
-    }
 
-    lateinit var adapter: CustomAdapter
-
-    lateinit var controller: Controller
-
-    override fun onCreate(savedInstanceState: Bundle?) {
-        super.onCreate(savedInstanceState)
-        setContentView(R.layout.activity_list)
-
-        //This is dependency injection, this class is satisfying the dependencies for Controller
-        controller = Controller(this, FakeDataSource())
-        controller.getListFromDataSource()
-
-        fab_create_new_item.setOnClickListener {
-            onClickFab()
+        fun newInstance(): ListFragment {
+            return ListFragment()
         }
-
     }
 
 
     fun onClickFab() {
-        controller.createNewItem()
+        //controller.createNewItem()
     }
 
-    override fun showUndoSnackbar() {
-        Snackbar.make(root_list_activity, "Item Deleted", Snackbar.LENGTH_LONG )
+    fun showUndoSnackbar() {
+        Snackbar.make(root_list_activity, "Item Deleted", Snackbar.LENGTH_LONG)
                 .setAction("Undo", {
-                    controller.onUndoConfirmed()
-                }).addCallback(object: BaseTransientBottomBar.BaseCallback<Snackbar>(){//When the snackbar disapears goes to this callback
+                   // controller.onUndoConfirmed()
+                }).addCallback(object : BaseTransientBottomBar.BaseCallback<Snackbar>() {
+            //When the snackbar disapears goes to this callback
             override fun onDismissed(transientBottomBar: Snackbar?, event: Int) {
                 super.onDismissed(transientBottomBar, event)
-                controller.onSnackbarTimeout()
+               // controller.onSnackbarTimeout()
             }
         }).show()
 
     }
 
 
-
-    override fun addNewListItemToView(newItem: ListItem) {
+    fun addNewListItemToView(newItem: ListItem) {
         adapter.listOfItems.add(newItem)
         adapter.notifyItemInserted(adapter.listOfItems.lastIndex)
         recyclerList.smoothScrollToPosition(adapter.listOfItems.lastIndex)
     }
 
-    override fun insertItemBackAt(listItem: ListItem, tempListItemPosition: Int) {
+    fun insertItemBackAt(listItem: ListItem, tempListItemPosition: Int) {
         adapter.listOfItems.add(tempListItemPosition, listItem)
         adapter.notifyItemInserted(tempListItemPosition)
         recyclerList.smoothScrollToPosition(tempListItemPosition)
     }
 
 
-    override fun startDetailActivity(dateAndTime: String, message: String, colorResource: Int, view: View) {
-        val intent = Intent(this, DetailActivity::class.java)
+    fun startDetailActivity(dateAndTime: String, message: String, colorResource: Int, view: View) {
+        val intent = Intent(activity, DetailActivity::class.java)
         intent.putExtra(EXTRA_DATE_AND_TIME, dateAndTime)
         intent.putExtra(EXTRA_MESSAGE, message)
         intent.putExtra(EXTRA_COLOR, colorResource)
 
-        if(Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP){
-            window.enterTransition = Fade(Fade.IN)
-            window.enterTransition = Fade(Fade.OUT)
-            val activityOptions = ActivityOptions.makeSceneTransitionAnimation(this,
-                    Pair<View, String>(view.lbl_date_and_time, getString(R.string.transition_date)),
-                    Pair<View, String>(view.lbl_message, getString(R.string.transition_message)))
-            startActivity(intent, activityOptions.toBundle())
+        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP) {
+            /*     activity.window.enterTransition = Fade(Fade.IN)
+                 activity.window.enterTransition = Fade(Fade.OUT)
+                 val activityOptions = ActivityOptions.makeSceneTransitionAnimation(this,
+                         Pair<View, String>(view.lbl_date_and_time, getString(R.string.transition_date)),
+                         Pair<View, String>(view.lbl_message, getString(R.string.transition_message)))*/
+            // startActivity(intent, activityOptions.toBundle())
+            startActivity(intent)
 
-        }else {
+        } else {
             startActivity(intent)
         }
     }
 
-    override fun setUpAdapterAndView(listItem: List<ListItem>) {
-        val layoutManager = LinearLayoutManager(this)
+    fun setUpAdapterAndView(listItem: List<ListItem>) {
+        val layoutManager = LinearLayoutManager(context)
         recyclerList.layoutManager = layoutManager
-        adapter = CustomAdapter(this, { item, itemView ->
-            controller.onListItemClick(item, itemView)
+        adapter = CustomAdapter(context, { item, itemView ->
+            //controller.onListItemClick(item, itemView)
         })
         adapter.listOfItems = listItem.toMutableList()
         adapter.notifyDataSetChanged()
         recyclerList.adapter = adapter
 
         val itemDecoration = DividerItemDecoration(recyclerList.context, layoutManager.orientation)
-        itemDecoration.setDrawable(ContextCompat.getDrawable(this, R.drawable.divider_white))
+        itemDecoration.setDrawable(ContextCompat.getDrawable(context, R.drawable.divider_white))
         recyclerList.addItemDecoration(itemDecoration)
 
         val itemTouchHelper = ItemTouchHelper(createHelperCallback())
@@ -123,7 +155,7 @@ class ListActivity : AppCompatActivity(), ViewInterface {
 
     }
 
-    override fun deleteListItemAt(position: Int) {
+    fun deleteListItemAt(position: Int) {
         adapter.listOfItems.removeAt(position)
         adapter.notifyItemRemoved(position)
     }
@@ -131,9 +163,9 @@ class ListActivity : AppCompatActivity(), ViewInterface {
 
     private fun createHelperCallback(): ItemTouchHelper.Callback {
         /*First Param is for Up/Down motion, second is for Left/Right.
-             Note that we can supply 0, one constant (e.g. ItemTouchHelper.LEFT), or two constants (e.g.
-             ItemTouchHelper.LEFT | ItemTouchHelper.RIGHT) to specify what directions are allowed.
-             */
+         Note that we can supply 0, one constant (e.g. ItemTouchHelper.LEFT), or two constants (e.g.
+         ItemTouchHelper.LEFT | ItemTouchHelper.RIGHT) to specify what directions are allowed.
+         */
         return object : ItemTouchHelper.SimpleCallback(
                 0,
                 ItemTouchHelper.LEFT or ItemTouchHelper.RIGHT) {
@@ -147,7 +179,7 @@ class ListActivity : AppCompatActivity(), ViewInterface {
 
             override fun onSwiped(viewHolder: RecyclerView.ViewHolder, swipeDir: Int) {
                 val position = viewHolder.adapterPosition
-                controller.onListItemSwiped(position, adapter.listOfItems[position])
+                //controller.onListItemSwiped(position, adapter.listOfItems[position])
             }
         }
     }
@@ -179,6 +211,5 @@ class ListActivity : AppCompatActivity(), ViewInterface {
             }
         }
     }
-
 
 }

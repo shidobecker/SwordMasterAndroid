@@ -1,4 +1,4 @@
-package shido.com.swordmaster.view
+package shido.com.swordmaster.list
 
 import android.view.View
 import shido.com.swordmaster.data.ListItem

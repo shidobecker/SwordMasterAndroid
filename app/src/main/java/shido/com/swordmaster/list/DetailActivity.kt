@@ -1,9 +1,9 @@
-package shido.com.swordmaster.view
+package shido.com.swordmaster.list
 
 import android.os.Bundle
 import android.support.v4.content.ContextCompat
 import android.support.v7.app.AppCompatActivity
-import kotlinx.android.synthetic.main.activity_detail.*
+import kotlinx.android.synthetic.main.fragment_detail.*
 import shido.com.swordmaster.R
 
 
@@ -26,7 +26,7 @@ class DetailActivity : AppCompatActivity() {
         lbl_date_and_time_header.text = dateAndTimeExtra
         lbl_message_body.text = messageExtra
 
-        container_colored_background.setBackgroundColor(ContextCompat.getColor(this, drawableResourceExtra))
+        imv_colored_background.setBackgroundColor(ContextCompat.getColor(this, drawableResourceExtra))
 
     }
 }

@@ -3,16 +3,14 @@ package shido.com.swordmaster
 import com.nhaarman.mockito_kotlin.mock
 import org.junit.Test
 
-import org.junit.Assert.*
 import org.junit.Before
 import org.junit.runner.RunWith
-import org.mockito.Mock
 import org.mockito.Mockito
 import org.mockito.junit.MockitoJUnitRunner
-import shido.com.swordmaster.data.DataSourceInterface
+import shido.com.swordmaster.data.ListItemDao
 import shido.com.swordmaster.data.ListItem
 import shido.com.swordmaster.logic.Controller
-import shido.com.swordmaster.view.ViewInterface
+import shido.com.swordmaster.list.ViewInterface
 
 /**
  * Example local unit test, which will execute on the development machine (host).
@@ -26,7 +24,7 @@ class ControllerUnitTest {
      * Test Double:
      * Specifically a 'Mock'
      */
-    val dataSource = mock<DataSourceInterface>()
+    val dataSource = mock<ListItemDao>()
 
     val view = mock<ViewInterface>()
 
@@ -48,7 +46,7 @@ class ControllerUnitTest {
         listItens.add(listItem)
 
         //Setup our mocks to return the data we want
-        Mockito.`when`(dataSource.getListOfData()).thenReturn(listItens) //Then something calls dataSource.getListOfData, return listItens declared above
+        Mockito.`when`(dataSource.getListItems()).thenReturn(listItens) //Then something calls dataSource.getListItems, return listItens declared above
 
         //Call the method we are testing
         controller.getListFromDataSource()

@@ -1,5 +1,6 @@
 package shido.com.swordmaster.data
 
+import android.arch.lifecycle.LiveData
 import shido.com.swordmaster.R
 import java.util.*
 
@@ -8,7 +9,7 @@ import java.util.*
  *
  * Created by Shido on 30/12/2017.
  */
-class FakeDataSource : DataSourceInterface {
+class FakeDataSource {
 
 
     private val sizeOfCollection = 12
@@ -33,7 +34,7 @@ class FakeDataSource : DataSourceInterface {
             R.color.YELLOW)
 
 
-    override fun getListOfData(): List<ListItem> {
+     fun getListItems(): List<ListItem> {
         val listOfData = mutableListOf<ListItem>()
         val random = Random()
         //make 12 semi-random items
@@ -52,7 +53,7 @@ class FakeDataSource : DataSourceInterface {
         return listOfData
     }
 
-    override fun createNewItem(): ListItem {
+     fun createNewItem(): ListItem {
         val randomOne = random.nextInt(4)
         val randomTwo = random.nextInt(4)
         val randomThree = random.nextInt(4)
@@ -61,6 +62,6 @@ class FakeDataSource : DataSourceInterface {
                 message = messages[randomTwo], colorResource = colours[randomThree])
     }
 
-    override fun deleteListItem(listItem: ListItem) {
+    fun deleteListItem(listItem: ListItem) {
     }
 }

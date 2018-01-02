@@ -1,6 +1,9 @@
 <resources>
-  <string name="app_name">SwordMaster</string>
-  <string name="transition_drawable">drawable</string>
-  <string name="transition_message">message</string>
-  <string name="transition_date">date</string>
+    <string name="app_name">SwordMaster</string>
+    <string name="transition_drawable">drawable</string>
+    <string name="transition_message">message</string>
+    <string name="transition_date">date</string>
+
+    <!-- TODO: Remove or change this placeholder text -->
+    <string name="hello_blank_fragment">Hello blank fragment</string>
 </resources>
